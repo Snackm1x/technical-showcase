@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class ShoppingListContainer extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             items: []
@@ -10,18 +11,19 @@ export class ShoppingListContainer extends Component {
     }
 
     addItem(name) {
+        const items = [...this.state.items, name];
         this.setState({
-            items: [].concat(this.state.items).concat([name])
+            items
         });
     }
 
     render() {
         return (
             <div>
-                <InputArea onSubmit={this.addItem}/>
-                <ShoppingList items={this.state.items}/>
+                <InputArea onSubmit={this.addItem} />
+                <ShoppingList items={this.state.items} />
             </div>
-        )
+        );
     }
 }
 
@@ -36,39 +38,36 @@ export class InputArea extends Component {
     }
 
     setText(event) {
-        this.setState({text: event.target.value});
+        this.setState({ text: event.target.value });
     }
 
-    handleClick(){
+    handleClick() {
         this.props.onSubmit(this.state.text);
     }
 
     render() {
         return (
-          <div>
-              <input value={this.state.text} onChange={this.setText}/>
-              <button onClick={this.handleClick}>Add</button>
-          </div>  
+            <div>
+                <input value={this.state.text} onChange={this.setText} />
+                <button onClick={this.handleClick}>Add</button>
+            </div>
         );
     }
 }
-InputArea.propTypes = {
-    onSubmit: React.PropTypes.func.isRequired
-};
 
 export class ShoppingList extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
-        return thi9s.props.items ? 
-        (
+        return (
             <ul>
                 {this.props.items.map((item, index) => (
                     <li key={index}>{item}</li>
                 ))}
-            </ul>)
-        : null;
+            </ul>
+        );
     }
 }
 
-ShoppingList.propTypes = {
-    items: React.PropTypes.array.isRequired
-};
+ShoppingList.defaultProps = { items: [] };
